@@ -1,6 +1,8 @@
 package com.vanchel.todolist.domain
 
+import java.util.*
+
 data class Topic(
-    val name: String,
-    val tasks: List<Task>
+    val id: UUID = UUID.randomUUID(),
+    val name: String
 )

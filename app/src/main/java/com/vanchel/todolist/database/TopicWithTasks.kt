@@ -2,6 +2,7 @@ package com.vanchel.todolist.database
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import com.vanchel.todolist.domain.TaskList
 import com.vanchel.todolist.domain.Topic
 
 data class TopicWithTasks(
@@ -12,8 +13,8 @@ data class TopicWithTasks(
     )
     val tasks: List<TaskEntity>
 ) {
-    fun toTopicModel() = Topic(
-        name = topic.name,
+    fun toTaskListModel() = TaskList(
+        topic = topic.toTopicModel(),
         tasks = tasks.map(TaskEntity::toTaskModel)
     )
 }
