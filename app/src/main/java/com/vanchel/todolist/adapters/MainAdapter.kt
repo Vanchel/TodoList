@@ -41,9 +41,9 @@ class MainDiffCallback : DiffUtil.ItemCallback<TaskList>() {
     }
 
     override fun areContentsTheSame(oldItem: TaskList, newItem: TaskList): Boolean {
-        // Due to the fact that a task can only be completed or uncompleted, there is no need to
-        // count the number of values that satisfy each of these conditions separately. It is
-        // enough to check only one of them and just compare the lengths of the lists.
+        /* Due to the fact that a task can only be completed or uncompleted, there is no need to
+        count the number of values that satisfy each of these conditions separately. It is
+        enough to check only one of them and just compare the lengths of the lists. */
 
         return oldItem.topic.name == newItem.topic.name
                 && oldItem.tasks.size == newItem.tasks.size

@@ -8,4 +8,5 @@
     <string name="no_task_lists">No task lists to show, try to create one.</string>
     <string name="main_fragment_title">Task lists</string>
     <string name="save">Save</string>
+    <string name="new_topic">New topic</string>
 </resources>
