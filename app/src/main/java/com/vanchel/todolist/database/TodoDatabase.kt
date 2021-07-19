@@ -20,7 +20,7 @@ abstract class TodoDatabase : RoomDatabase() {
 
 private lateinit var instance: TodoDatabase
 
-fun getInstance(context: Context): TodoDatabase {
+fun getTodoDatabase(context: Context): TodoDatabase {
     synchronized(TodoDatabase::class.java) {
         if (!::instance.isInitialized) {
             instance = Room.databaseBuilder(

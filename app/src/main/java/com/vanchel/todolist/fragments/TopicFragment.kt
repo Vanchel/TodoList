@@ -1,15 +1,15 @@
 package com.vanchel.todolist.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.vanchel.todolist.R
 import com.vanchel.todolist.databinding.FragmentTopicBinding
 
-class TopicFragment : Fragment() {
+class TopicFragment : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

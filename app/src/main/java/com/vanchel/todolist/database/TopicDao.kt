@@ -1,6 +1,7 @@
 package com.vanchel.todolist.database
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TopicDao {
@@ -14,5 +15,5 @@ interface TopicDao {
     suspend fun deleteTopic(topic: TopicEntity)
 
     @Query("SELECT * FROM topics")
-    suspend fun getTopics(): List<TopicEntity>
+    fun getTopics(): Flow<List<TopicEntity>>
 }

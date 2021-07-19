@@ -1,10 +1,7 @@
 package com.vanchel.todolist.database
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
+import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import androidx.room.PrimaryKey
 import com.vanchel.todolist.domain.Task
 import com.vanchel.todolist.domain.Topic
 import java.util.*
@@ -18,12 +15,12 @@ import java.util.*
             childColumns = ["topic_id"],
             onDelete = CASCADE
         )
-    ]
+    ],
 )
 data class TaskEntity(
     @PrimaryKey
     @ColumnInfo(name = "task_id") val taskId: UUID,
-    @ColumnInfo(name = "topic_id") val topicId: UUID,
+    @ColumnInfo(name = "topic_id", index = true) val topicId: UUID,
     val title: String,
     val completed: Boolean
 ) {

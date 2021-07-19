@@ -8,22 +8,22 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.vanchel.todolist.fragments.MainFragment"
-        android:label="MainFragment"
+        android:label="@string/main_fragment_title"
         tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_mainFragment_to_taskFragment"
             app:destination="@id/taskFragment" />
         <action
             android:id="@+id/action_mainFragment_to_topicFragment"
-            app:destination="@id/topicFragment" />
+            app:destination="@id/topicDialog" />
     </fragment>
     <fragment
         android:id="@+id/taskFragment"
         android:name="com.vanchel.todolist.fragments.TaskFragment"
-        android:label="fragment_task"
+        android:label=""
         tools:layout="@layout/fragment_task" />
-    <fragment
-        android:id="@+id/topicFragment"
+    <dialog
+        android:id="@+id/topicDialog"
         android:name="com.vanchel.todolist.fragments.TopicFragment"
         android:label="TopicFragment"
         tools:layout="@layout/fragment_topic" />

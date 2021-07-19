@@ -2,4 +2,10 @@
     <string name="app_name">Todo List</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_new_task_button">Add new task button</string>
+    <string name="completion_indicators_formatted">%1$d completed, %2$d uncompleted</string>
+    <string name="topics">Topics</string>
+    <string name="no_task_lists">No task lists to show, try to create one.</string>
+    <string name="main_fragment_title">Task lists</string>
+    <string name="save">Save</string>
 </resources>

@@ -1,7 +1,9 @@
 package com.vanchel.todolist.database
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface TaskDao {
     @Insert
     suspend fun addTask(task: TaskEntity)
@@ -14,5 +16,5 @@ interface TaskDao {
 
     @Transaction
     @Query("SELECT * FROM topics")
-    suspend fun getTopicsWithTasks(): List<TopicWithTasks>
+    fun getTopicsWithTasks(): Flow<List<TopicWithTasks>>
 }
