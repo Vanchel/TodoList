@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.vanchel.todolist.R
-import com.vanchel.todolist.adapters.TopicAdapter
+import com.vanchel.todolist.adapters.TopicDeleteAdapter
 import com.vanchel.todolist.databinding.FragmentTopicBinding
 import com.vanchel.todolist.domain.Topic
 import com.vanchel.todolist.viewmodels.TopicViewModel
@@ -31,16 +31,18 @@ class TopicFragment : BottomSheetDialogFragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        val adapter = TopicAdapter(this::onDeleteTopic)
+        /* Passing a method reference like this seems to be appropriate here,
+         and I don't have to worry about memory leaks. After all, the lifetime of the
+         fragment will in any case be longer than the lifetime of the view. */
+
+        val adapter = TopicDeleteAdapter(this::onDeleteTopic)
         binding.recyclerView.adapter = adapter
 
         binding.addButton.setOnClickListener {
             onAddNewTopic(binding.newTopicNameEdit)
         }
 
-        viewModel.topics.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
-        })
+        viewModel.topics.observe(viewLifecycleOwner, adapter::submitList)
 
         return binding.root
     }

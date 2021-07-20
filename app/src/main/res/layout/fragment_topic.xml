@@ -34,7 +34,7 @@
             android:layout_marginVertical="4dp"
             android:autofillHints="newTopicName"
             android:hint="@string/new_topic"
-            android:inputType="text|textAutoCorrect"
+            android:inputType="text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/add_button"
             app:layout_constraintStart_toStartOf="parent"

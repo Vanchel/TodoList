@@ -9,4 +9,6 @@
     <string name="main_fragment_title">Task lists</string>
     <string name="save">Save</string>
     <string name="new_topic">New topic</string>
+    <string name="topic">Topic</string>
+    <string name="task_name">Task name</string>
 </resources>

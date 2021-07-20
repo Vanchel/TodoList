@@ -37,9 +37,7 @@ class MainFragment : Fragment() {
             )
         )
 
-        viewModel.taskLists.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
-        })
+        viewModel.taskLists.observe(viewLifecycleOwner, adapter::submitList)
 
         setHasOptionsMenu(true)
 

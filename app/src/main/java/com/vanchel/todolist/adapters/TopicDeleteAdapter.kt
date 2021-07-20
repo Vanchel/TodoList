@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vanchel.todolist.databinding.ListItemTopicDeleteBinding
 import com.vanchel.todolist.domain.Topic
 
-class TopicAdapter(private val onDelete: (topic: Topic) -> Unit) :
-    ListAdapter<Topic, TopicAdapter.ViewHolder>(TopicDiffCallback()) {
+class TopicDeleteAdapter(private val onDelete: (topic: Topic) -> Unit) :
+    ListAdapter<Topic, TopicDeleteAdapter.ViewHolder>(TopicDeleteDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
     }
@@ -40,7 +40,7 @@ class TopicAdapter(private val onDelete: (topic: Topic) -> Unit) :
     }
 }
 
-class TopicDiffCallback : DiffUtil.ItemCallback<Topic>() {
+class TopicDeleteDiffCallback : DiffUtil.ItemCallback<Topic>() {
     override fun areItemsTheSame(oldItem: Topic, newItem: Topic): Boolean {
         return oldItem.id == newItem.id
     }
