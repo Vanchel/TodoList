@@ -16,6 +16,8 @@ import com.vanchel.todolist.domain.Topic
 import com.vanchel.todolist.viewmodels.TopicViewModel
 
 class TopicFragment : BottomSheetDialogFragment() {
+    private lateinit var binding: FragmentTopicBinding
+
     private val viewModel: TopicViewModel by viewModels {
         val application = requireActivity().application
         TopicViewModel.Factory(application)
@@ -24,7 +26,7 @@ class TopicFragment : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val binding: FragmentTopicBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_topic, container, false
         )
 
@@ -39,7 +41,7 @@ class TopicFragment : BottomSheetDialogFragment() {
         binding.recyclerView.adapter = adapter
 
         binding.addButton.setOnClickListener {
-            onAddNewTopic(binding.newTopicNameEdit)
+            onAddNewTopic()
         }
 
         viewModel.topics.observe(viewLifecycleOwner, adapter::submitList)
@@ -47,8 +49,8 @@ class TopicFragment : BottomSheetDialogFragment() {
         return binding.root
     }
 
-    private fun onAddNewTopic(editText: EditText) {
-        val name = editText.text.trim().toString()
+    private fun onAddNewTopic() {
+        val name = binding.newTopicNameEdit.text.trim().toString()
 
         // No need to call isBlank() because of trim called earlier
         if (name.isEmpty()) return

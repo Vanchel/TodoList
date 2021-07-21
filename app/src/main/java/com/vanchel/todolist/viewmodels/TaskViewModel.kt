@@ -1,23 +1,34 @@
 package com.vanchel.todolist.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.vanchel.todolist.database.getTodoDatabase
+import com.vanchel.todolist.domain.Task
 import com.vanchel.todolist.domain.Topic
 import com.vanchel.todolist.repository.TodoRepository
+import kotlinx.coroutines.launch
 
 class TaskViewModel(application: Application) : AndroidViewModel(application) {
     private val todoRepository = TodoRepository(getTodoDatabase(application))
 
-    private var selectedTopic: Topic? = null
+    private val _selectedTopic = MutableLiveData<Topic>()
 
     val topics = todoRepository.topics.asLiveData()
 
+    val isTopicSelected
+        get() = _selectedTopic.value != null
+
     fun selectTopic(topic: Topic) {
-        selectedTopic = topic
+        _selectedTopic.value = topic
+    }
+
+    fun addTask(title: String) {
+        _selectedTopic.value?.let {
+            viewModelScope.launch {
+                val newTask = Task(title, false)
+                todoRepository.addTask(newTask, it)
+            }
+        }
     }
 
     class Factory(private val application: Application) : ViewModelProvider.Factory {
