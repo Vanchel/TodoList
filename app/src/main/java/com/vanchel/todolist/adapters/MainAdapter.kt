@@ -8,20 +8,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vanchel.todolist.databinding.ListItemTaskListBinding
 import com.vanchel.todolist.domain.TaskList
 
-class MainAdapter : ListAdapter<TaskList, MainAdapter.ViewHolder>(MainDiffCallback()) {
+class MainAdapter(private val onSelected: (taskList: TaskList) -> Unit) :
+    ListAdapter<TaskList, MainAdapter.ViewHolder>(MainDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item, onSelected)
     }
 
     class ViewHolder private constructor(private val binding: ListItemTaskListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: TaskList) {
+        fun bind(item: TaskList, onSelected: (taskList: TaskList) -> Unit) {
             binding.taskList = item
+            binding.root.setOnClickListener {
+                onSelected.invoke(item)
+            }
             binding.executePendingBindings()
         }
 

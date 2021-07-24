@@ -2,6 +2,7 @@ package com.vanchel.todolist.database
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 @Dao
 interface TaskDao {
@@ -17,4 +18,8 @@ interface TaskDao {
     @Transaction
     @Query("SELECT * FROM topics")
     fun getTopicsWithTasks(): Flow<List<TopicWithTasks>>
+
+    @Transaction
+    @Query("SELECT * FROM topics WHERE topic_id = :id")
+    fun getTopicWithTasks(id: UUID): Flow<TopicWithTasks>
 }

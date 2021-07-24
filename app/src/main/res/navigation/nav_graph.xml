@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_mainFragment_to_topicFragment"
             app:destination="@id/topicDialog" />
+        <action
+            android:id="@+id/action_mainFragment_to_taskListFragment"
+            app:destination="@id/taskListFragment" />
     </fragment>
     <fragment
         android:id="@+id/taskFragment"
@@ -27,4 +30,16 @@
         android:name="com.vanchel.todolist.fragments.TopicFragment"
         android:label="TopicFragment"
         tools:layout="@layout/fragment_topic" />
+    <fragment
+        android:id="@+id/taskListFragment"
+        android:name="com.vanchel.todolist.fragments.TaskListFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_task_list">
+        <argument
+            android:name="topic_id"
+            app:argType="java.util.UUID" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
 </navigation>

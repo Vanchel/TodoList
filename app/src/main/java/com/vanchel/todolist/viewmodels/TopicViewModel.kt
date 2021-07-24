@@ -18,13 +18,17 @@ class TopicViewModel(application: Application) : AndroidViewModel(application) {
     before the destruction of the view model and therefore be interrupted.
     Have to check and test. */
 
-    fun addTopic(name: String) = viewModelScope.launch {
-        val newTopic = Topic(name)
-        todoRepository.addTopic(newTopic)
+    fun addTopic(name: String) {
+        viewModelScope.launch {
+            val newTopic = Topic(name)
+            todoRepository.addTopic(newTopic)
+        }
     }
 
-    fun deleteTopic(topic: Topic) = viewModelScope.launch {
-        todoRepository.deleteTopic(topic)
+    fun deleteTopic(topic: Topic) {
+        viewModelScope.launch {
+            todoRepository.deleteTopic(topic)
+        }
     }
 
     class Factory(private val application: Application) : ViewModelProvider.Factory {

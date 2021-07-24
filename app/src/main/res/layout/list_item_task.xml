@@ -5,17 +5,17 @@
     <data>
 
         <variable
-            name="topic"
-            type="com.vanchel.todolist.domain.Topic" />
+            name="task"
+            type="com.vanchel.todolist.domain.Task" />
     </data>
 
-    <RadioButton
-        android:id="@+id/radioButton"
+    <TextView
+        android:id="@+id/task_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp"
-        android:text="@{topic.name}"
-        tools:text="Work" />
+        android:padding="16dp"
+        android:text="@{task.title}"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        tools:text="Go to the gym" />
 </layout>

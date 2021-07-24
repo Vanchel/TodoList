@@ -28,7 +28,23 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        val adapter = MainAdapter()
+        val adapter = MainAdapter {
+            findNavController().navigate(
+                /* The choice in favor of two different arguments was made for two reasons.
+                * First, transferring large data objects between fragments is an anti-pattern
+                * (although in this particular case the object is quite small and is represented
+                * only by the same two transmitted fields).
+                * Secondly, and this is the main reason - in order to transmit a topic directly,
+                * it had to implement parcelable interface, and in this case the model ceases to be
+                * platform-independent (there is also an option with implementing serializable
+                * interface, but in this example it also seemed to me not the most convenient
+                * solution). */
+                MainFragmentDirections.actionMainFragmentToTaskListFragment(
+                    it.topic.id,
+                    it.topic.name
+                )
+            )
+        }
         binding.recyclerView.adapter = adapter
 
         binding.floatingActionButton.setOnClickListener(

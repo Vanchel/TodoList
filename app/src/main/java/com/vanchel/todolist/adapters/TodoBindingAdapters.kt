@@ -1,4 +1,4 @@
-package com.vanchel.todolist.util
+package com.vanchel.todolist.adapters
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
