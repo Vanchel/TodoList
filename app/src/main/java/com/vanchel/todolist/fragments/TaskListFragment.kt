@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.vanchel.todolist.adapters.TaskListAdapter
 import com.vanchel.todolist.databinding.FragmentTaskListBinding
+import com.vanchel.todolist.util.ItemRemoveCallback
 import com.vanchel.todolist.viewmodels.TaskListViewModel
 
 class TaskListFragment : Fragment() {
@@ -25,10 +27,16 @@ class TaskListFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        val adapter = TaskListAdapter {
-            viewModel.completeTask(it)
-        }
+        val adapter = TaskListAdapter(viewModel::updateTask)
         binding.recyclerView.adapter = adapter
+
+        val itemRemoveCallback = ItemRemoveCallback {
+            val item = adapter.currentList.elementAt(it)
+            viewModel.deleteTask(item)
+        }
+        val itemTouchHelper = ItemTouchHelper(itemRemoveCallback)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+
 
         viewModel.taskList.observe(viewLifecycleOwner) {
             adapter.submitList(it.tasks)

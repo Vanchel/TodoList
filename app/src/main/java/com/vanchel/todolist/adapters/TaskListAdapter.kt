@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vanchel.todolist.databinding.ListItemTaskBinding
 import com.vanchel.todolist.domain.Task
 
-class TaskListAdapter(private val onComplete: (task: Task) -> Unit) :
+class TaskListAdapter(private val onTap: (task: Task) -> Unit) :
     ListAdapter<Task, TaskListAdapter.ViewHolder>(TaskListDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -17,21 +17,19 @@ class TaskListAdapter(private val onComplete: (task: Task) -> Unit) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, onComplete)
+        holder.bind(item, onTap)
     }
 
     class ViewHolder private constructor(private val binding: ListItemTaskBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(item: Task, onComplete: (task: Task) -> Unit) = with(binding) {
+        fun bind(item: Task, onTap: (task: Task) -> Unit) = with(binding) {
             if (item.completed) {
                 taskTitle.paintFlags = taskTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                root.setOnClickListener(null)
             } else {
                 taskTitle.paintFlags = taskTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-                root.setOnClickListener {
-                    onComplete.invoke(item)
-                }
+            }
+            root.setOnClickListener {
+                onTap.invoke(item)
             }
             task = item
         }

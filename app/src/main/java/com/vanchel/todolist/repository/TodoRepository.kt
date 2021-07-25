@@ -42,6 +42,11 @@ class TodoRepository(private val database: TodoDatabase) {
         database.taskDao().updateTask(taskEntity)
     }
 
+    suspend fun deleteTask(task: Task, topic: Topic) {
+        val taskEntity = TaskEntity.fromTaskModel(task, topic)
+        database.taskDao().deleteTask(taskEntity)
+    }
+
     fun getTaskList(topicId: UUID): Flow<TaskList> {
         val topicWithTasks = database.taskDao().getTopicWithTasks(topicId)
         return topicWithTasks.map(TopicWithTasks::toTaskListModel)

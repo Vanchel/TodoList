@@ -9,13 +9,17 @@
             type="com.vanchel.todolist.domain.Topic" />
     </data>
 
-    <RadioButton
-        android:id="@+id/radioButton"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp"
-        android:text="@{topic.name}"
-        tools:text="Work" />
+        android:paddingHorizontal="8dp">
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:text="@{topic.name}"
+            tools:text="Work" />
+    </FrameLayout>
 </layout>

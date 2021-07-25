@@ -13,7 +13,7 @@ class TaskListViewModel(application: Application, topicId: UUID) : AndroidViewMo
 
     val taskList = todoRepository.getTaskList(topicId).asLiveData()
 
-    fun completeTask(task: Task) {
+    fun updateTask(task: Task) {
         taskList.value?.let {
             viewModelScope.launch {
                 /* Here is an interesting moment in which you have to be careful. You cannot change
@@ -22,8 +22,16 @@ class TaskListViewModel(application: Application, topicId: UUID) : AndroidViewMo
                 * DiffUtil.ItemCallback will not see the difference between the old element (which
                 * we changed) and the new one from the list that was submitted by the observer, so
                 * the data in the database will be updated, but UI will not react to this change. */
-                val completedTask = task.copy(completed = true)
+                val completedTask = task.copy(completed = !task.completed)
                 todoRepository.updateTask(completedTask, it.topic)
+            }
+        }
+    }
+
+    fun deleteTask(task: Task) {
+        taskList.value?.let {
+            viewModelScope.launch {
+                todoRepository.deleteTask(task, it.topic)
             }
         }
     }
