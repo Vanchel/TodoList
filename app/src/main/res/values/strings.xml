@@ -6,6 +6,9 @@
     <string name="completion_indicators_formatted">%1$d completed, %2$d uncompleted</string>
     <string name="topics">Topics</string>
     <string name="no_task_lists">No task lists to show, try to create one.</string>
+    <string name="no_topics_to_select">There is no any topics. First you have to create one.</string>
+    <string name="no_topics_to_delete">All your topics will be displayed here.</string>
+    <string name="no_tasks">There are no tasks in this list yet.</string>
     <string name="main_fragment_title">Task lists</string>
     <string name="save">Save</string>
     <string name="new_topic">New topic</string>

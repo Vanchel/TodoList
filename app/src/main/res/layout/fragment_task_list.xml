@@ -5,16 +5,34 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.vanchel.todolist.viewmodels.TaskListViewModel" />
     </data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:context=".fragments.TaskListFragment"
-        tools:listitem="@layout/list_item_task" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:visibility="@{!viewModel.taskList.tasks.empty ? View.VISIBLE : View.GONE}"
+            tools:context=".fragments.TaskListFragment"
+            tools:listitem="@layout/list_item_task" />
+
+        <TextView
+            android:id="@+id/empty_list_prompt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:text="@string/no_tasks"
+            android:textAlignment="center"
+            android:visibility="@{viewModel.taskList.tasks.empty ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone" />
+    </FrameLayout>
 </layout>
