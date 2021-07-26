@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Todo List</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_new_task_button">Add new task button</string>
     <string name="completion_indicators_formatted">%1$d completed, %2$d uncompleted</string>
     <string name="topics">Topics</string>
@@ -14,4 +12,5 @@
     <string name="new_topic">New topic</string>
     <string name="topic">Topic</string>
     <string name="task_name">Task name</string>
+    <string name="new_task">New task</string>
 </resources>

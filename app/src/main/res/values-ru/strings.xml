@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Список задач</string>
+    <string name="add_new_task_button">Кнопка добавить новую задачу</string>
+    <string name="completion_indicators_formatted">%1$d завершенных, %2$d незавершенных</string>
+    <string name="topics">Списки</string>
+    <string name="no_task_lists">Списков задач нет, попробуйте создать такой список.</string>
+    <string name="no_topics_to_select">Списков нет. Сначала вы должны создать список.</string>
+    <string name="no_topics_to_delete">Все ваши списки будут отбражаться здесь.</string>
+    <string name="no_tasks">В этом списке пока нет задач.</string>
+    <string name="main_fragment_title">Списки задач</string>
+    <string name="save">Сохранить</string>
+    <string name="new_topic">Новый список</string>
+    <string name="topic">Список</string>
+    <string name="task_name">Название задачи</string>
+    <string name="new_task">Новая задача</string>
+</resources>

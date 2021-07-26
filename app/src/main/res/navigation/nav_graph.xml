@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/taskFragment"
         android:name="com.vanchel.todolist.fragments.TaskFragment"
-        android:label=""
+        android:label="@string/new_task"
         tools:layout="@layout/fragment_task" />
     <dialog
         android:id="@+id/topicDialog"
