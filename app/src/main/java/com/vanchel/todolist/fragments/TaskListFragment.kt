@@ -6,17 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.vanchel.todolist.adapters.TaskListAdapter
 import com.vanchel.todolist.databinding.FragmentTaskListBinding
 import com.vanchel.todolist.util.ItemRemoveCallback
 import com.vanchel.todolist.viewmodels.TaskListViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class TaskListFragment : Fragment() {
     private val args: TaskListFragmentArgs by navArgs()
+
+    @Inject lateinit var taskListViewModelFactory: TaskListViewModel.Factory
     private val viewModel: TaskListViewModel by viewModels {
-        TaskListViewModel.Factory(requireActivity().application, args.topicId)
+        TaskListViewModel.provideFactory(taskListViewModelFactory, args.topicId)
     }
 
     override fun onCreateView(

@@ -1,16 +1,18 @@
 package com.vanchel.todolist.viewmodels
 
-import android.app.Application
 import androidx.lifecycle.*
-import com.vanchel.todolist.database.getTodoDatabase
 import com.vanchel.todolist.domain.Task
 import com.vanchel.todolist.repository.TodoRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import java.util.*
 
-class TaskListViewModel(application: Application, topicId: UUID) : AndroidViewModel(application) {
-    private val todoRepository = TodoRepository(getTodoDatabase(application))
-
+class TaskListViewModel @AssistedInject constructor(
+    private val todoRepository: TodoRepository,
+    @Assisted topicId: UUID
+) : ViewModel() {
     val taskList = todoRepository.getTaskList(topicId).asLiveData()
 
     fun updateTask(task: Task) {
@@ -36,14 +38,23 @@ class TaskListViewModel(application: Application, topicId: UUID) : AndroidViewMo
         }
     }
 
-    class Factory(private val application: Application, private val topicId: UUID) :
-        ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            @Suppress("UNCHECKED_CAST")
-            if (modelClass.isAssignableFrom(TaskListViewModel::class.java)) {
-                return TaskListViewModel(application, topicId) as T
+    companion object {
+        fun provideFactory(
+            assistedFactory: Factory,
+            topicId: UUID
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                @Suppress("UNCHECKED_CAST")
+                if (modelClass.isAssignableFrom(TaskListViewModel::class.java)) {
+                    return assistedFactory.create(topicId) as T
+                }
+                throw IllegalAccessException("unable to construct viewModel")
             }
-            throw IllegalAccessException("unable to construct viewModel")
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(topicId: UUID): TaskListViewModel
     }
 }

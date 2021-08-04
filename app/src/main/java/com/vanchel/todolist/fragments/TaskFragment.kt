@@ -10,13 +10,13 @@ import com.vanchel.todolist.R
 import com.vanchel.todolist.adapters.TopicSelectAdapter
 import com.vanchel.todolist.databinding.FragmentTaskBinding
 import com.vanchel.todolist.viewmodels.TaskViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TaskFragment : Fragment() {
     private lateinit var binding: FragmentTaskBinding
 
-    private val viewModel: TaskViewModel by viewModels {
-        TaskViewModel.Factory(requireActivity().application)
-    }
+    private val viewModel: TaskViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

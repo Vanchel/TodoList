@@ -14,14 +14,13 @@ import com.vanchel.todolist.adapters.TopicDeleteAdapter
 import com.vanchel.todolist.databinding.FragmentTopicBinding
 import com.vanchel.todolist.domain.Topic
 import com.vanchel.todolist.viewmodels.TopicViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TopicFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentTopicBinding
 
-    private val viewModel: TopicViewModel by viewModels {
-        val application = requireActivity().application
-        TopicViewModel.Factory(application)
-    }
+    private val viewModel: TopicViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

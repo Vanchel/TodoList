@@ -1,16 +1,15 @@
 package com.vanchel.todolist.viewmodels
 
-import android.app.Application
 import androidx.lifecycle.*
-import com.vanchel.todolist.database.getTodoDatabase
 import com.vanchel.todolist.domain.Task
 import com.vanchel.todolist.domain.Topic
 import com.vanchel.todolist.repository.TodoRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TaskViewModel(application: Application) : AndroidViewModel(application) {
-    private val todoRepository = TodoRepository(getTodoDatabase(application))
-
+@HiltViewModel
+class TaskViewModel @Inject constructor(private val todoRepository: TodoRepository) : ViewModel() {
     private val _selectedTopic = MutableLiveData<Topic>()
 
     val topics = todoRepository.topics.asLiveData()
@@ -28,16 +27,6 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
                 val newTask = Task(title, false)
                 todoRepository.addTask(newTask, it)
             }
-        }
-    }
-
-    class Factory(private val application: Application) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            @Suppress("UNCHECKED_CAST")
-            if (modelClass.isAssignableFrom(TaskViewModel::class.java)) {
-                return TaskViewModel(application) as T
-            }
-            throw IllegalAccessException("unable to construct viewModel")
         }
     }
 }

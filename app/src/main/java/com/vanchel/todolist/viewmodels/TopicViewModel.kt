@@ -1,15 +1,14 @@
 package com.vanchel.todolist.viewmodels
 
-import android.app.Application
 import androidx.lifecycle.*
-import com.vanchel.todolist.database.getTodoDatabase
 import com.vanchel.todolist.domain.Topic
 import com.vanchel.todolist.repository.TodoRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TopicViewModel(application: Application) : AndroidViewModel(application) {
-    private val todoRepository = TodoRepository(getTodoDatabase(application))
-
+@HiltViewModel
+class TopicViewModel @Inject constructor(private val todoRepository: TodoRepository) : ViewModel() {
     val topics = todoRepository.topics.asLiveData()
 
     /* It may be a dubious decision to perform these operations in the view model scope,
@@ -28,16 +27,6 @@ class TopicViewModel(application: Application) : AndroidViewModel(application) {
     fun deleteTopic(topic: Topic) {
         viewModelScope.launch {
             todoRepository.deleteTopic(topic)
-        }
-    }
-
-    class Factory(private val application: Application) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            @Suppress("UNCHECKED_CAST")
-            if (modelClass.isAssignableFrom(TopicViewModel::class.java)) {
-                return TopicViewModel(application) as T
-            }
-            throw IllegalAccessException("unable to construct viewModel")
         }
     }
 }

@@ -12,12 +12,11 @@ import com.vanchel.todolist.R
 import com.vanchel.todolist.adapters.MainAdapter
 import com.vanchel.todolist.databinding.FragmentMainBinding
 import com.vanchel.todolist.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
-    private val viewModel: MainViewModel by viewModels {
-        val application = requireActivity().application
-        MainViewModel.Factory(application)
-    }
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
