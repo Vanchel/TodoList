@@ -1,6 +1,5 @@
 package com.vanchel.todolist.adapters
 
-import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -23,14 +22,7 @@ class TaskListAdapter(private val onTap: (task: Task) -> Unit) :
     class ViewHolder private constructor(private val binding: ListItemTaskBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task, onTap: (task: Task) -> Unit) = with(binding) {
-            if (item.completed) {
-                taskTitle.paintFlags = taskTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            } else {
-                taskTitle.paintFlags = taskTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-            }
-            root.setOnClickListener {
-                onTap.invoke(item)
-            }
+            root.setOnClickListener { onTap.invoke(item) }
             task = item
         }
 

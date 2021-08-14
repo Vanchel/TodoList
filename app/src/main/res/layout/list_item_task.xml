@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -16,6 +17,7 @@
         android:background="?android:attr/selectableItemBackground"
         android:padding="16dp"
         android:text="@{task.title}"
+        app:stripedOut="@{task.completed}"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         tools:text="Go to the gym" />
 </layout>
