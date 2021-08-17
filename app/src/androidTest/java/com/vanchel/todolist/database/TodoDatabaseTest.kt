@@ -5,8 +5,11 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.not
@@ -19,14 +22,24 @@ import java.io.IOException
 import java.util.*
 
 /**
- * I have not been able to fully figure out for what specific reason, but runBlockingTest() does
- * not work and throws an exception. runBlocking(), although I kind of shouldn't be using it,
- * works as it should.
+ * I have not been able to fully figure out for what specific reason, but
+ * testScope.runBlockingTestTest() does not work and throws an exception.
+ * testScope.runBlockingTest(), although I kind of shouldn't be using it, works as it should.
+ *
+ * Upd.
+ * Apparently, the problem with using the test directly was that the room, as you know,
+ * fulfills its requests in the Dispatchers.IO, so that the process goes beyond the test scope
+ * and never comes back. I found out that the room (perhaps specifically for these purposes)
+ * provides the ability to change the default dispatcher (or executor). So you can use the test
+ * dispatcher with the test scope and the problem is resolved.
  */
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 class TodoDatabaseTest {
+    private val testDispatcher = TestCoroutineDispatcher()
+    private val testScope = TestCoroutineScope(testDispatcher)
+
     private lateinit var topicDao: TopicDao
     private lateinit var taskDao: TaskDao
     private lateinit var db: TodoDatabase
@@ -52,7 +65,10 @@ class TodoDatabaseTest {
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        db = Room.inMemoryDatabaseBuilder(context, TodoDatabase::class.java).build()
+        db = Room.inMemoryDatabaseBuilder(context, TodoDatabase::class.java)
+            .setTransactionExecutor(testDispatcher.asExecutor())
+            .setQueryExecutor(testDispatcher.asExecutor())
+            .build()
         topicDao = db.topicDao()
         taskDao = db.taskDao()
     }
@@ -64,7 +80,7 @@ class TodoDatabaseTest {
     }
 
     @Test
-    fun addTopic_addsTopic() = runBlocking {
+    fun addTopic_addsTopic() = testScope.runBlockingTest {
         val newTopic = TopicEntity(UUID.randomUUID(), "topic")
 
         topicDao.addTopic(newTopic)
@@ -74,7 +90,7 @@ class TodoDatabaseTest {
     }
 
     @Test
-    fun updateTopic_updatesTopic() = runBlocking {
+    fun updateTopic_updatesTopic() = testScope.runBlockingTest {
         val initialTopic = TopicEntity(UUID.randomUUID(), "topic")
         topicDao.addTopic(initialTopic)
         val initialFromDb = topicDao.getTopics().first()[0]
@@ -88,7 +104,7 @@ class TodoDatabaseTest {
     }
 
     @Test
-    fun deleteTopic_deletesTopic() = runBlocking {
+    fun deleteTopic_deletesTopic() = testScope.runBlockingTest {
         val topics = prepareTopics(3)
 
         val topicToDelete = topics[1]
@@ -99,7 +115,7 @@ class TodoDatabaseTest {
     }
 
     @Test
-    fun getTopics_getsTopics() = runBlocking {
+    fun getTopics_getsTopics() = testScope.runBlockingTest {
         val topics = prepareTopics(3)
 
         val topicsFromDb = topicDao.getTopics().first()
@@ -108,7 +124,7 @@ class TodoDatabaseTest {
     }
 
     @Test
-    fun addTask_addsTask() = runBlocking {
+    fun addTask_addsTask() = testScope.runBlockingTest {
         val topic = TopicEntity(UUID.randomUUID(), "topic")
         topicDao.addTopic(topic)
         val newTask = TaskEntity(UUID.randomUUID(), topic.topicId, "task", false)
@@ -120,7 +136,7 @@ class TodoDatabaseTest {
     }
 
     @Test
-    fun updateTask_updatesTask() = runBlocking {
+    fun updateTask_updatesTask() = testScope.runBlockingTest {
         val topic = TopicEntity(UUID.randomUUID(), "topic")
         topicDao.addTopic(topic)
         val initialTask = TaskEntity(UUID.randomUUID(), topic.topicId, "task", false)
@@ -135,7 +151,7 @@ class TodoDatabaseTest {
     }
 
     @Test
-    fun deleteTask_deletesTask() = runBlocking {
+    fun deleteTask_deletesTask() = testScope.runBlockingTest {
         val tasks = prepareTopicWithTasks(3).tasks
 
         val taskToDelete = tasks[1]
@@ -146,7 +162,7 @@ class TodoDatabaseTest {
     }
 
     @Test
-    fun getTopicsWithTasks_getsTopicsWithTasks() = runBlocking {
+    fun getTopicsWithTasks_getsTopicsWithTasks() = testScope.runBlockingTest {
         val topicsWithTasks = listOf(
             prepareTopicWithTasks(3),
             prepareTopicWithTasks(5),
@@ -159,7 +175,7 @@ class TodoDatabaseTest {
     }
 
     @Test
-    fun getTopicWithTasks_getsTopicWithTasks() = runBlocking {
+    fun getTopicWithTasks_getsTopicWithTasks() = testScope.runBlockingTest {
         val topicWithTasks = prepareTopicWithTasks(3)
 
         val topicWithTasksFromDb =
