@@ -21,5 +21,5 @@ interface TaskDao {
 
     @Transaction
     @Query("SELECT * FROM topics WHERE topic_id = :id")
-    fun getTopicWithTasks(id: UUID): Flow<TopicWithTasks>
+    fun getTopicWithTasks(id: UUID): Flow<TopicWithTasks?>
 }

@@ -5,6 +5,7 @@ import com.vanchel.todolist.domain.Task
 import com.vanchel.todolist.domain.TaskList
 import com.vanchel.todolist.domain.Topic
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import java.util.*
 import javax.inject.Inject
@@ -68,8 +69,12 @@ class TodoRepositoryImpl @Inject constructor(
         taskDao.deleteTask(taskEntity)
     }
 
+    // TODO: fix it properly.
+    // I am not completely clear what led to the error that caused the NPE. Why (and where?)
+    // does the flow keep returning values? I ought to ask someone more experienced. Until then,
+    // I'll use filterNotNull().
     override fun getTaskList(topicId: UUID): Flow<TaskList> {
         val topicWithTasks = taskDao.getTopicWithTasks(topicId)
-        return topicWithTasks.map(TopicWithTasks::toTaskListModel)
+        return topicWithTasks.filterNotNull().map(TopicWithTasks::toTaskListModel)
     }
 }
